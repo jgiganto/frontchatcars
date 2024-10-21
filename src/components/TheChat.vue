@@ -1,21 +1,44 @@
 <script setup>
-	import { ref, nextTick } from "vue";
+	// IMPORTS
+	import { ref, nextTick, onMounted } from "vue";
+	import { useRoute } from "vue-router";
 	import axios from "axios";
 
+	// ROUTER
+	const route = useRoute();
+
+	// DATA
 	const newMessage = ref("");
-	const messages = ref([
-		{
-			sender: "assistant",
-			text: "Lo siento, hubo un error al procesar tu solicitud.",
-		},
-		{
-			sender: "user",
-			text: "Lo siento, hubo un error al procesar tu solicitud.",
-		},
-	]);
+	const messages = ref([]);
 	const chatDisplay = ref(null);
 	const loadingMessage = ref(false);
+	const brand = ref(null);
+	const model = ref(null);
 
+	// HOOKS
+	onMounted(() => {
+		brand.value = route.query.brand;
+		model.value = route.query.model;
+
+		if (brand.value && model.value) {
+			const brandCapitalized =
+				brand.value.charAt(0).toUpperCase() + brand.value.slice(1);
+			const modelCapitalized =
+				model.value.charAt(0).toUpperCase() + model.value.slice(1);
+
+			messages.value.push({
+				sender: "assistant",
+				text: `¿Quieres saber más sobre el ${brandCapitalized} ${modelCapitalized}?`,
+			});
+		} else {
+			messages.value.push({
+				sender: "assistant",
+				text: "¡Hola, soy CarBot! Tu asistente virtual, ¿qué pregunta tienes?",
+			});
+		}
+	});
+
+	// METHODS
 	async function sendMessage() {
 		if (newMessage.value.trim() !== "") {
 			// Agrega el mensaje del usuario al historial
@@ -25,13 +48,19 @@
 			const userMessage = newMessage.value;
 			newMessage.value = "";
 
+			const messagesJSON = JSON.stringify(messages.value);
+
 			try {
 				// Realiza una solicitud POST a tu servidor backend
 				const response = await axios.post(
 					"https://appservicecoche-a3emdug0gfeggxfk.westeurope-01.azurewebsites.net/chat",
 					{
 						query: userMessage,
-						prompt: " You are a helpful assistant that provides information about cars based solely on the data provided below.\nDo not include any information that is not present in the sources.\nDo not use any prior knowledge or make assumptions.\nProvide the answer in a friendly and concise bulleted manner.\nIf there isn't enough information below, say you don't know.\nDo not mention any cars or details not included in the sources.",
+						prompt:
+							brand.value && model.value
+								? 'Dentro de la compañía "Stratesys Cars", especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente podría estar interesado en cualquiera de los automóviles y hacer preguntas sobre uno en concreto o varios de ellos. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.'
+								: `Dentro de la compañía "Stratesys Cars", especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente ha escaneado el QR pegado al parabrisas del ${brand.value} ${model.value} y la conversación y respuestas deberían ir orientadas a su interés sobre este automóvil en concreto, iniciando cada una de las respuesta con un encabezado con la marca y modelo del coche cuya pegatina ha escaneado el cliente. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.`,
+						history: messagesJSON,
 					}
 				);
 
@@ -68,13 +97,13 @@
 				:class="['chat-message', message.sender]"
 			>
 				<div v-if="message.sender === 'user'">
-					<i>Tú <br /></i>
+					<i>Tú</i>
 					<span>
 						{{ message.text }}
 					</span>
 				</div>
 				<div v-else>
-					<i>CarsBot <br /></i>
+					<i>CarsBot</i>
 					<span>
 						{{ message.text }}
 					</span>
@@ -128,6 +157,14 @@
 	.chat-message {
 		max-width: 80%;
 		margin-bottom: 0.5rem;
+		font-size: 16px;
+	}
+
+	/* Mensajes */
+	.chat-message div {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
 	}
 
 	.chat-message span {
