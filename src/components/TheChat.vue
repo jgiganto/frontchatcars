@@ -14,6 +14,7 @@
 	const loadingMessage = ref(false);
 	const brand = ref(null);
 	const model = ref(null);
+	const filteredMessages = ref([]);
 
 	// HOOKS
 	onMounted(() => {
@@ -22,7 +23,10 @@
 
 		if (brand.value && model.value) {
 			const brandCapitalized =
-				brand.value.charAt(0).toUpperCase() + brand.value.slice(1);
+				brand.value === "bmw"
+					? brand.value.toUpperCase()
+					: brand.value.charAt(0).toUpperCase() +
+					  brand.value.slice(1);
 			const modelCapitalized =
 				model.value.charAt(0).toUpperCase() + model.value.slice(1);
 
@@ -33,34 +37,44 @@
 		} else {
 			messages.value.push({
 				role: "assistant",
-				content: "¡Hola, soy CarBot! Tu asistente virtual, ¿qué pregunta tienes?",
+				content:
+					"¡Hola, soy CarsBot! Tu asistente virtual, ¿en qué puedo ayudarte?",
 			});
 		}
+
+		filteredMessages.value = messages.value.filter(
+			(message) => message.role !== "system"
+		);
+
+		console.log(filteredMessages.value);
 	});
 
 	// METHODS
 	async function sendMessage() {
 		if (newMessage.value.trim() !== "") {
+			loadingMessage.value = true;
+
 			// Agrega el mensaje del usuario al historial
 			messages.value.push({ role: "user", content: newMessage.value });
 
-			 // Incluye el mensaje del sistema si aún no está en el historial
-			 if (messages.value[0]?.role !== "system") {
+			filteredMessages.value = messages.value.filter(
+				(message) => message.role !== "system"
+			);
+
+			// Incluye el mensaje del sistema si aún no está en el historial
+			if (messages.value[0]?.role !== "system") {
 				messages.value.unshift({
-				role: "system",
-				content:
-					brand.value && model.value
-					? `Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre el ${brand.value} ${model.value} basándose únicamente en los datos proporcionados a continuación. ...`
-					: 'Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. ...',
+					role: "system",
+					content:
+						brand.value && model.value
+							? `Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre el ${brand.value} ${model.value} basándose únicamente en los datos proporcionados a continuación. ...`
+							: "Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. ...",
 				});
 			}
 
-			
 			// Guarda el mensaje para enviarlo al backend
 			const userMessage = newMessage.value;
 			newMessage.value = "";
-
-			const messagesJSON = JSON.stringify(messages.value);
 
 			try {
 				// Realiza una solicitud POST a tu servidor backend
@@ -70,8 +84,8 @@
 						query: userMessage,
 						prompt:
 							brand.value && model.value
-							? `Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente ha escaneado el QR pegado al parabrisas del ${brand.value} ${model.value} y la conversación y respuestas deberían ir orientadas a su interés sobre este automóvil en concreto, iniciando cada una de las respuesta con un encabezado con la marca y modelo del coche cuya pegatina ha escaneado el cliente. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.`
-							: 'Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente podría estar interesado en cualquiera de los automóviles y hacer preguntas sobre uno en concreto o varios de ellos. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.',
+								? `Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente ha escaneado el QR pegado al parabrisas del ${brand.value} ${model.value} y la conversación y respuestas deberían ir orientadas a su interés sobre este automóvil en concreto, iniciando cada una de las respuesta con un encabezado con la marca y modelo del coche cuya pegatina ha escaneado el cliente. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.`
+								: "Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente podría estar interesado en cualquiera de los automóviles y hacer preguntas sobre uno en concreto o varios de ellos. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.",
 						messages: messages.value,
 					}
 				);
@@ -87,14 +101,20 @@
 				console.error("Error al comunicarse con el backend:", error);
 				messages.value.push({
 					role: "assistant",
-					content: "Lo siento, hubo un error al procesar tu solicitud.",
+					content:
+						"Lo siento, hubo un error al procesar tu solicitud.",
+				});
+			} finally {
+				filteredMessages.value = messages.value.filter(
+					(message) => message.role !== "system"
+				);
+				loadingMessage.value = false;
+				// Desplazarse hacia abajo
+				nextTick(() => {
+					chatDisplay.value.scrollTop =
+						chatDisplay.value.scrollHeight;
 				});
 			}
-
-			// Desplazarse hacia abajo
-			nextTick(() => {
-				chatDisplay.value.scrollTop = chatDisplay.value.scrollHeight;
-			});
 		}
 	}
 </script>
@@ -104,7 +124,7 @@
 		<h1 class="chat-header">Chat with <i>CarsBot</i></h1>
 		<div class="chat-display" ref="chatDisplay">
 			<div
-				v-for="(message, index) in messages"
+				v-for="(message, index) in filteredMessages"
 				:key="index"
 				:class="['chat-message', message.role]"
 			>
@@ -114,7 +134,7 @@
 						{{ message.content }}
 					</span>
 				</div>
-				<div v-else>
+				<div class="chat-assistant" v-else>
 					<i>CarsBot</i>
 					<span>
 						{{ message.content }}
@@ -129,7 +149,10 @@
 				type="text"
 				placeholder="Escribe tu mensaje aquí"
 			/>
-			<button @click="sendMessage">Enviar</button>
+			<button v-if="!loadingMessage" @click="sendMessage">Enviar</button>
+			<button class="loading-button" v-else>
+				<div class="loader"></div>
+			</button>
 		</div>
 	</div>
 </template>
@@ -176,13 +199,18 @@
 	.chat-message div {
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
+	}
+
+	.chat-message i {
+		font-size: 20px;
+		color: #174f5e;
 	}
 
 	.chat-message span {
-		background-color: #ffffff;
-		padding: 5px;
+		background-color: #174f5e56;
+		padding: 5px 10px;
 		border-radius: 5px;
+		color: black;
 	}
 
 	.chat-message.user {
@@ -191,6 +219,9 @@
 
 	.chat-message.assistant {
 		align-self: flex-end;
+	}
+
+	.chat-assistant i {
 		text-align: right;
 	}
 
@@ -236,6 +267,7 @@
 		color: #ffffff;
 		font-size: 16px;
 		border: none;
+		width: 100px;
 		border-radius: 5px;
 		cursor: pointer;
 		font-weight: bold;
@@ -260,5 +292,36 @@
 
 	.chat-display::-webkit-scrollbar-thumb:hover {
 		background-color: #adb5bd;
+	}
+
+	.loading-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.loader {
+		width: 10px;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		animation: l5 1s infinite linear alternate;
+	}
+	@keyframes l5 {
+		0% {
+			box-shadow: 20px 0 #fff, -20px 0 #fff2;
+			background: #fff;
+		}
+		33% {
+			box-shadow: 20px 0 #fff, -20px 0 #fff2;
+			background: #fff2;
+		}
+		66% {
+			box-shadow: 20px 0 #fff2, -20px 0 #fff;
+			background: #fff2;
+		}
+		100% {
+			box-shadow: 20px 0 #fff2, -20px 0 #fff;
+			background: #fff;
+		}
 	}
 </style>

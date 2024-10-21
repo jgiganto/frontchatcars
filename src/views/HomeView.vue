@@ -9,6 +9,15 @@
 	const showQrCodeReader = ref(false);
 
 	// METHODS
+	function showChat() {
+		openChat.value = !openChat.value;
+		showQrCodeReader.value = false;
+	}
+	function showQrReader() {
+		showQrCodeReader.value = !showQrCodeReader.value;
+		openChat.value = false;
+	}
+
 	function isValidUrl(url) {
 		try {
 			new URL(url);
@@ -50,20 +59,14 @@
 			<div>
 				<span>Chat para dudas!</span>
 				<div class="chat-button">
-					<img
-						@click="openChat = !openChat"
-						src="@/assets/chat-logo.png"
-					/>
+					<img @click="showChat" src="@/assets/chat-logo.png" />
 				</div>
 			</div>
 			<div>
 				<span>Scan a QR!</span>
 				<div class="chat-button">
 					<!-- <img @click="goTo" src="@/assets/qr-code.png" /> -->
-					<img
-						@click="showQrCodeReader = !showQrCodeReader"
-						src="@/assets/qr-code.png"
-					/>
+					<img @click="showQrReader" src="@/assets/qr-code.png" />
 				</div>
 			</div>
 		</div>
