@@ -48,10 +48,10 @@
 			 if (messages.value[0]?.role !== "system") {
 				messages.value.unshift({
 				role: "system",
-				content:
+				messages:
 					brand.value && model.value
-					? `Dentro de la compañía "Stratesys Cars", especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre el ${brand.value} ${model.value} basándose únicamente en los datos proporcionados a continuación. ...`
-					: 'Dentro de la compañía "Stratesys Cars", especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. ...',
+					? `Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre el ${brand.value} ${model.value} basándose únicamente en los datos proporcionados a continuación. ...`
+					: 'Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. ...',
 				});
 			}
 
