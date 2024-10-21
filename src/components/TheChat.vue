@@ -27,13 +27,13 @@
 				model.value.charAt(0).toUpperCase() + model.value.slice(1);
 
 			messages.value.push({
-				sender: "assistant",
-				text: `¿Quieres saber más sobre el ${brandCapitalized} ${modelCapitalized}?`,
+				role: "assistant",
+				content: `¿Quieres saber más sobre el ${brandCapitalized} ${modelCapitalized}?`,
 			});
 		} else {
 			messages.value.push({
-				sender: "assistant",
-				text: "¡Hola, soy CarBot! Tu asistente virtual, ¿qué pregunta tienes?",
+				role: "assistant",
+				content: "¡Hola, soy CarBot! Tu asistente virtual, ¿qué pregunta tienes?",
 			});
 		}
 	});
@@ -42,8 +42,20 @@
 	async function sendMessage() {
 		if (newMessage.value.trim() !== "") {
 			// Agrega el mensaje del usuario al historial
-			messages.value.push({ sender: "user", text: newMessage.value });
+			messages.value.push({ role: "user", content: newMessage.value });
 
+			 // Incluye el mensaje del sistema si aún no está en el historial
+			 if (messages.value[0]?.role !== "system") {
+				messages.value.unshift({
+				role: "system",
+				content:
+					brand.value && model.value
+					? `Dentro de la compañía "Stratesys Cars", especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre el ${brand.value} ${model.value} basándose únicamente en los datos proporcionados a continuación. ...`
+					: 'Dentro de la compañía "Stratesys Cars", especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. ...',
+				});
+			}
+
+			
 			// Guarda el mensaje para enviarlo al backend
 			const userMessage = newMessage.value;
 			newMessage.value = "";
@@ -58,8 +70,8 @@
 						query: userMessage,
 						prompt:
 							brand.value && model.value
-								? 'Dentro de la compañía "Stratesys Cars", especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente podría estar interesado en cualquiera de los automóviles y hacer preguntas sobre uno en concreto o varios de ellos. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.'
-								: `Dentro de la compañía "Stratesys Cars", especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente ha escaneado el QR pegado al parabrisas del ${brand.value} ${model.value} y la conversación y respuestas deberían ir orientadas a su interés sobre este automóvil en concreto, iniciando cada una de las respuesta con un encabezado con la marca y modelo del coche cuya pegatina ha escaneado el cliente. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.`,
+							? `Dentro de la compañía "Stratesys Cars", especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente ha escaneado el QR pegado al parabrisas del ${brand.value} ${model.value} y la conversación y respuestas deberían ir orientadas a su interés sobre este automóvil en concreto, iniciando cada una de las respuesta con un encabezado con la marca y modelo del coche cuya pegatina ha escaneado el cliente. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.`
+							: 'Dentro de la compañía "Stratesys Cars", especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente podría estar interesado en cualquiera de los automóviles y hacer preguntas sobre uno en concreto o varios de ellos. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.',
 						history: messagesJSON,
 					}
 				);
@@ -68,14 +80,14 @@
 
 				// Agrega la respuesta del asistente al historial
 				messages.value.push({
-					sender: "assistant",
-					text: assistantMessage,
+					role: "assistant",
+					content: assistantMessage,
 				});
 			} catch (error) {
 				console.error("Error al comunicarse con el backend:", error);
 				messages.value.push({
-					sender: "assistant",
-					text: "Lo siento, hubo un error al procesar tu solicitud.",
+					role: "assistant",
+					content: "Lo siento, hubo un error al procesar tu solicitud.",
 				});
 			}
 
@@ -94,18 +106,18 @@
 			<div
 				v-for="(message, index) in messages"
 				:key="index"
-				:class="['chat-message', message.sender]"
+				:class="['chat-message', message.role]"
 			>
-				<div v-if="message.sender === 'user'">
+				<div v-if="message.role === 'user'">
 					<i>Tú</i>
 					<span>
-						{{ message.text }}
+						{{ message.content }}
 					</span>
 				</div>
 				<div v-else>
 					<i>CarsBot</i>
 					<span>
-						{{ message.text }}
+						{{ message.content }}
 					</span>
 				</div>
 			</div>
