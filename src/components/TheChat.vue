@@ -67,7 +67,7 @@
 					role: "system",
 					content:
 						brand.value && model.value
-							? `Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre el ${brand.value} ${model.value} basándose únicamente en los datos proporcionados a continuación. ...`
+							? `Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre el automovil ${brand.value} ${model.value} todas las preguntas que va hacer el usuario seran sobre esa marca y modelo de automovil, basándose únicamente en los datos proporcionados a continuación, . ...`
 							: "Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. ...",
 				});
 			}
@@ -81,7 +81,7 @@
 				const response = await axios.post(
 					"https://appservicecoche-a3emdug0gfeggxfk.westeurope-01.azurewebsites.net/chat",
 					{
-						query: userMessage,
+						query: userMessage + " " + brand.value + " "  + model.value,
 						prompt:
 							brand.value && model.value
 								? `Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente ha escaneado el QR pegado al parabrisas del ${brand.value} ${model.value} y la conversación y respuestas deberían ir orientadas a su interés sobre este automóvil en concreto, iniciando cada una de las respuesta con un encabezado con la marca y modelo del coche cuya pegatina ha escaneado el cliente. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.`
