@@ -50,22 +50,25 @@
 			<h1>La compra de tu auto, más fácil que nunca</h1>
 			<ChatView class="chat" v-if="openChat" />
 			<div class="qr-reader-fullscreen" v-if="showQrCodeReader">
-				<QrcodeStream @decode="onDecode" @init="onInit">
-					<h3>Lector QR</h3>
+				<QrcodeStream
+					class="qr-lector"
+					@decode="onDecode"
+					@init="onInit"
+				>
+					<h3>¡Escanéa el QR!</h3>
 				</QrcodeStream>
 			</div>
 		</div>
 		<div class="chat-button-container">
 			<div>
-				<span>Chat para dudas!</span>
+				<span>¡Chat para dudas!</span>
 				<div class="chat-button">
 					<img @click="showChat" src="@/assets/chat-logo.png" />
 				</div>
 			</div>
 			<div>
-				<span>Scan a QR!</span>
+				<span>¡Escanéa un QR!</span>
 				<div class="chat-button">
-					<!-- <img @click="goTo" src="@/assets/qr-code.png" /> -->
 					<img @click="showQrReader" src="@/assets/qr-code.png" />
 				</div>
 			</div>
@@ -148,8 +151,14 @@
 		top: 16.3%;
 		right: 3%;
 		border-radius: 5px;
-		border: black solid 2px;
-		/* bottom: 0;
-		left: 0; */
+		border: #174f5e solid 2px;
+		background-color: #f9f9f9;
+	}
+
+	.qr-reader-fullscreen .qr-lector h3 {
+		background-color: #174f5e5c;
+		text-align: center;
+		color: #f9f9f9;
+		padding: 10px;
 	}
 </style>
