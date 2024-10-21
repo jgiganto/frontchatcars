@@ -55,7 +55,7 @@
 					@decode="onDecode"
 					@init="onInit"
 				>
-					<h3>¡Escanéa el QR!</h3>
+					<h3>¡Escanea el QR!</h3>
 				</QrcodeStream>
 			</div>
 		</div>
@@ -67,7 +67,7 @@
 				</div>
 			</div>
 			<div>
-				<span>¡Escanéa un QR!</span>
+				<span>¡Escanea un QR!</span>
 				<div class="chat-button">
 					<img @click="showQrReader" src="@/assets/qr-code.png" />
 				</div>
