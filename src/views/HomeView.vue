@@ -1,14 +1,37 @@
 <script setup>
 	import { ref } from "vue";
 	import ChatView from "../components/TheChat.vue";
+	// @ts-expect-error - Not undefined
+	import { QrcodeStream } from "vue3-qrcode-reader";
 
 	// DATA
 	const openChat = ref(false);
+	const showQrCodeReader = ref(false);
 
 	// METHODS
-	function toggleChat() {
-		openChat.value = !openChat.value;
-		console.log(openChat.value);
+	function isValidUrl(url) {
+		try {
+			new URL(url);
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
+
+	function onDecode(decodedString) {
+		console.log("Decoded QR code:", decodedString);
+
+		if (isValidUrl(decodedString)) {
+			window.location.href = decodedString;
+		} else {
+			alert("The QR code doesn't contain a valid URL");
+		}
+	}
+
+	function onInit(promise) {
+		promise.catch((error) => {
+			console.error("Initialization error:", error.message);
+		});
 	}
 </script>
 
@@ -17,32 +40,60 @@
 		<div>
 			<h1>La compra de tu auto, más fácil que nunca</h1>
 			<ChatView class="chat" v-if="openChat" />
+			<div class="qr-reader-fullscreen" v-if="showQrCodeReader">
+				<QrcodeStream @decode="onDecode" @init="onInit">
+					<h3>Lector QR</h3>
+				</QrcodeStream>
+			</div>
 		</div>
-		<div class="chat-button-conatiner">
-			<span>Chat with us!</span>
-			<div class="chat-button">
-				<img @click="toggleChat" src="@/assets/chat-logo.png" />
+		<div class="chat-button-container">
+			<div>
+				<span>Chat para dudas!</span>
+				<div class="chat-button">
+					<img
+						@click="openChat = !openChat"
+						src="@/assets/chat-logo.png"
+					/>
+				</div>
+			</div>
+			<div>
+				<span>Scan a QR!</span>
+				<div class="chat-button">
+					<!-- <img @click="goTo" src="@/assets/qr-code.png" /> -->
+					<img
+						@click="showQrCodeReader = !showQrCodeReader"
+						src="@/assets/qr-code.png"
+					/>
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <style scoped>
-	.chat-button-conatiner {
+	.chat-button-container {
 		position: fixed; /* Makes the button stay in one position relative to the viewport */
 		bottom: 20px; /* Adjust the distance from the bottom */
 		right: 20px; /* Adjust the distance from the right */
 		display: flex;
+		/* flex-direction: column; */
+		align-items: center;
+		gap: 20px;
+	}
+
+	.chat-button-container div {
+		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 		gap: 5px;
 	}
 
-	.chat-button-conatiner span {
+	.chat-button-container span {
 		color: #ffffff;
 	}
 
-	.chat-button-conatiner .chat-button {
+	.chat-button-container .chat-button {
 		cursor: pointer;
 		display: flex;
 		align-items: center;
@@ -54,7 +105,7 @@
 		background-color: white;
 	}
 
-	.chat-button-conatiner .chat-button img {
+	.chat-button-container .chat-button img {
 		width: 50px;
 	}
 
@@ -72,11 +123,7 @@
 		max-width: 60%;
 		font-size: 90px;
 		font-style: italic;
-		/* background-color: #f4f4f4; */
-		/* color: white; */
 		color: #174f5e;
-		border-radius: 5px;
-		padding: 0 20px;
 		position: absolute;
 		top: 20%;
 		text-shadow: 6px 6px 6px #ffffff;
@@ -88,5 +135,18 @@
 		z-index: 10;
 		margin-right: 60px;
 		/* position: relative; */
+	}
+
+	.qr-reader-fullscreen {
+		position: fixed;
+		max-width: 26%;
+		height: 67.5%;
+		z-index: 11;
+		top: 16.3%;
+		right: 3%;
+		border-radius: 5px;
+		border: black solid 2px;
+		/* bottom: 0;
+		left: 0; */
 	}
 </style>
