@@ -81,7 +81,8 @@
 				const response = await axios.post(
 					"https://appservicecoche-a3emdug0gfeggxfk.westeurope-01.azurewebsites.net/chat",
 					{
-						query: userMessage + " " + brand.value + " "  + model.value,
+						query:
+							userMessage + " " + brand.value + " " + model.value,
 						prompt:
 							brand.value && model.value
 								? `Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente ha escaneado el QR pegado al parabrisas del ${brand.value} ${model.value} y la conversación y respuestas deberían ir orientadas a su interés sobre este automóvil en concreto, iniciando cada una de las respuesta con un encabezado con la marca y modelo del coche cuya pegatina ha escaneado el cliente. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.`
@@ -170,7 +171,7 @@
 
 	/* Encabezado */
 	.chat-header {
-		background-color: #174f5e;
+		background-color: #1e3552;
 		color: #ffffff;
 		text-align: center;
 		padding: 1rem;
@@ -203,11 +204,11 @@
 
 	.chat-message i {
 		font-size: 20px;
-		color: #174f5e;
+		color: #1e3552;
 	}
 
 	.chat-message span {
-		background-color: #174f5e56;
+		background-color: #1e355256;
 		padding: 5px 10px;
 		border-radius: 5px;
 		color: black;
@@ -263,7 +264,7 @@
 	/* Botón de enviar */
 	.chat-input button {
 		padding: 0.75rem 1rem;
-		background-color: #174f5e;
+		background-color: #1e3552;
 		color: #ffffff;
 		font-size: 16px;
 		border: none;
@@ -275,9 +276,9 @@
 	}
 
 	.chat-input button:hover {
-		border: 1px solid #174f5e;
+		border: 1px solid #1e3552;
 		background-color: #ffffff;
-		color: #174f5e;
+		color: #1e3552;
 	}
 
 	/* Scroll personalizado */
@@ -322,6 +323,45 @@
 		100% {
 			box-shadow: 20px 0 #fff2, -20px 0 #fff;
 			background: #fff;
+		}
+	}
+
+	@media (max-width: 500px) {
+		.chat-container {
+			width: 350px;
+			height: 480px;
+			height: calc(100vh - 80px - 110px);
+		}
+		.chat-display {
+			height: calc(100vh - 80px - 110px - 65px);
+		}
+
+		.chat-header {
+			font-size: 22px;
+		}
+
+		.chat-message {
+			font-size: 12px;
+			text-align: left;
+		}
+
+		.chat-message i {
+			font-size: 14px;
+		}
+
+		.chat-input input {
+			font-size: 12px;
+		}
+
+		/* Botón de enviar */
+		.chat-input button {
+			font-size: 12px;
+		}
+	}
+
+	@media (max-width: 360px) {
+		.chat-container {
+			width: 330px;
 		}
 	}
 </style>

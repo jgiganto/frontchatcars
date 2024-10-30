@@ -46,8 +46,8 @@
 
 <template>
 	<div class="hero">
-		<div>
-			<h1>La compra de tu auto, más fácil que nunca</h1>
+		<div class="hero-content">
+			<h1>La compra de tu auto, <u>más fácil que nunca</u></h1>
 			<ChatView class="chat" v-if="openChat" />
 			<div class="qr-reader-fullscreen" v-if="showQrCodeReader">
 				<QrcodeStream
@@ -116,8 +116,8 @@
 	}
 
 	.hero {
-		height: calc(100vh - 90px);
-		background-image: url("@/assets/hero.jpg");
+		height: calc(100vh - 72.07px);
+		background-image: url("@/assets/bg-qr.jpg");
 		background-size: cover;
 		background-position: top;
 		padding: 50px;
@@ -129,10 +129,10 @@
 		max-width: 60%;
 		font-size: 90px;
 		font-style: italic;
-		color: #174f5e;
+		color: #fff;
 		position: absolute;
 		top: 20%;
-		text-shadow: 6px 6px 6px #ffffff;
+		text-shadow: 6px 6px 6px #1e3552;
 	}
 
 	.chat {
@@ -150,15 +150,79 @@
 		z-index: 11;
 		top: 16.3%;
 		right: 3%;
-		border-radius: 5px;
-		border: #174f5e solid 2px;
+		border: #1e3552 solid 2px;
 		background-color: #f9f9f9;
 	}
 
 	.qr-reader-fullscreen .qr-lector h3 {
-		background-color: #174f5e5c;
+		background-color: #1e35525c;
 		text-align: center;
 		color: #f9f9f9;
 		padding: 10px;
+	}
+
+	@media (max-width: 500px) {
+		.hero {
+			height: calc(100vh - 72.07px);
+			background-position: right;
+			padding: 5px;
+		}
+
+		.hero > .hero-content {
+			min-width: 100%;
+		}
+
+		.hero > div > h1 {
+			max-width: 100%;
+			font-size: 70px;
+			text-align: center;
+			top: 0;
+			right: 0;
+			left: 0;
+			bottom: 0;
+			margin: 0 10px;
+		}
+
+		.chat-button-container {
+			bottom: 20px;
+			right: 10px;
+			gap: 10px;
+		}
+
+		.chat-button-container span {
+			font-size: 12px;
+		}
+
+		.chat-button-container .chat-button {
+			width: 50px;
+			height: 50px;
+		}
+
+		.chat-button-container .chat-button img {
+			width: 30px;
+		}
+
+		.chat {
+			z-index: 10;
+			margin-left: auto;
+			margin-right: auto;
+			left: 0;
+			right: 0;
+			bottom: 120px;
+			text-align: center;
+		}
+
+		.qr-reader-fullscreen {
+			position: fixed;
+			max-width: 93%;
+			height: calc(100vh - 75px - 110px);
+			z-index: 11;
+			top: 80px;
+			text-align: center;
+		}
+
+		.qr-reader-fullscreen .qr-lector h3 {
+			font-size: 16px;
+		}
 	}
 </style>

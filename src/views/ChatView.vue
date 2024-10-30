@@ -1,22 +1,10 @@
 <script setup>
 	// IMPORTS
-	// import { useRoute } from "vue-router";
 	import TheChat from "@/components/TheChat.vue";
-
-	// // ROUTER
-	// const route = useRoute();
-
-	// // DATA
-	// const brand = route.query.brand;
-	// const model = route.query.model;
 </script>
 
 <template>
 	<div class="car-container">
-		<!-- <h1>
-			¿QUIERS SABER MÁS SOBRE EL
-			{{ brand.toUpperCase() + " " + model.toUpperCase() }}?
-		</h1> -->
 		<TheChat />
 	</div>
 </template>
@@ -27,9 +15,16 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 50px;
-		background-image: url("@/assets/hero.jpg");
+		background-image: url("@/assets/bg-qr.jpg");
 		background-size: cover;
 		background-position: top;
+	}
+
+	@media (max-width: 500px) {
+		.car-container {
+			height: calc(100vh - 72.07px);
+			background-position: right;
+			padding: 5px;
+		}
 	}
 </style>

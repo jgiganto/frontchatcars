@@ -7,9 +7,6 @@
 					<h1>Stratesys Cars</h1>
 				</RouterLink>
 			</div>
-			<!-- <nav>
-				<RouterLink to="/chat">Chat with us!</RouterLink>
-			</nav> -->
 		</div>
 	</header>
 </template>
@@ -27,8 +24,6 @@
 
 	.header-wrapper {
 		padding: 20px 0;
-		display: flex;
-		justify-content: space-between;
 	}
 
 	.logo-wrapper a {
@@ -36,10 +31,24 @@
 		align-items: center;
 		gap: 10px;
 		text-decoration: none;
-		color: #174f5e;
+		color: #1e3552;
 	}
 
 	.header-wrapper img {
 		width: 50px;
+	}
+
+	@media (max-width: 500px) {
+		header {
+			justify-content: center;
+		}
+
+		.header-wrapper h1 {
+			font-size: 20px;
+		}
+
+		.header-wrapper img {
+			width: 30px;
+		}
 	}
 </style>
