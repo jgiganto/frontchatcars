@@ -87,7 +87,7 @@
 			try {
 				// Realiza una solicitud POST a tu servidor backend
 				const response = await axios.post(
-					"https://appservicecoche-a3emdug0gfeggxfk.westeurope-01.azurewebsites.net/chat",
+					"https://appservicecarfrontvue.azurewebsites.net/chat",
 					{
 						query: query,
 						prompt:
