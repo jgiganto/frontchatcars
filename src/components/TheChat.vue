@@ -15,6 +15,7 @@
 	const brand = ref(null);
 	const model = ref(null);
 	const filteredMessages = ref([]);
+	const textarea = ref(null);
 
 	// HOOKS
 	onMounted(() => {
@@ -125,6 +126,17 @@
 			}
 		}
 	}
+
+	function handleInput() {
+		if (textarea.value) {
+			textarea.value.style.height = "20px";
+
+			textarea.value.scrollHeight < 50
+				? (textarea.value.style.height =
+						textarea.value.scrollHeight - 10 + "px")
+				: (textarea.value.style.height = "50px");
+		}
+	}
 </script>
 
 <template>
@@ -151,12 +163,13 @@
 			</div>
 		</div>
 		<div class="chat-input">
-			<input
+			<textarea
+				ref="textarea"
 				v-model="newMessage"
 				@keyup.enter="sendMessage"
-				type="text"
+				@input="handleInput"
 				placeholder="Escribe tu mensaje aquí"
-			/>
+			></textarea>
 			<button v-if="!loadingMessage" @click="sendMessage">Enviar</button>
 			<button class="loading-button" v-else>
 				<div class="loader"></div>
@@ -251,21 +264,35 @@
 	/* Entrada de mensaje */
 	.chat-input {
 		display: flex;
+		align-items: center;
 		padding: 1rem;
 		background-color: #ffffff;
-		border-top: 1px solid #dee2e6;
+		border-top: 1px solid #aaa;
 		border-bottom-left-radius: 10px;
 		border-bottom-right-radius: 10px;
 	}
 
-	/* Campo de texto */
-	.chat-input input {
+	.chat-input textarea {
 		flex: 1;
-		padding: 0.75rem;
+		padding: 5px;
 		margin-right: 0.5rem;
-		border: 1px solid #ced4da;
+		border: 1px solid #1e3552;
 		border-radius: 5px;
 		font-size: 16px;
+		line-height: 20px;
+		font-family: inherit;
+		scrollbar-width: none;
+		height: 20px;
+		max-height: 100px;
+		resize: none;
+	}
+
+	.chat-input textarea::-webkit-scrollbar {
+		width: 0;
+	}
+
+	.chat-input textarea:focus {
+		outline: none;
 	}
 
 	/* Botón de enviar */
@@ -314,6 +341,7 @@
 		border-radius: 50%;
 		animation: l5 1s infinite linear alternate;
 	}
+
 	@keyframes l5 {
 		0% {
 			box-shadow: 20px 0 #fff, -20px 0 #fff2;
@@ -356,8 +384,9 @@
 			font-size: 14px;
 		}
 
-		.chat-input input {
+		.chat-input textarea {
 			font-size: 12px;
+			line-height: 16px;
 		}
 
 		/* Botón de enviar */
