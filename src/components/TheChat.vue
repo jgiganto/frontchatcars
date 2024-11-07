@@ -39,7 +39,7 @@
 			messages.value.push({
 				role: "assistant",
 				content:
-					"¡Hola, soy CarsBot! Tu asistente virtual, ¿en qué puedo ayudarte?",
+					"¡Hola, soy CarsBot! Tu asistente virtual, ¿en qué puedo ayudarte?.",
 			});
 		}
 
