@@ -39,7 +39,7 @@
 			messages.value.push({
 				role: "assistant",
 				content:
-					"¡Hola, soy CarsBot! Tu asistente virtual, ¿en qué puedo ayudarte?.",
+					"¡Hola, soy CarsBot! Tu asistente virtual, ¿en qué puedo ayudarte?",
 			});
 		}
 
@@ -88,7 +88,7 @@
 			try {
 				// Realiza una solicitud POST a tu servidor backend
 				const response = await axios.post(
-					"https://appservicecarpython01.azurewebsites.net/chat",
+					"https://asppython-rag-dev-fc-008.azurewebsites.net/chat",
 					{
 						query: query,
 						prompt:
