@@ -88,7 +88,7 @@
 			try {
 				// Realiza una solicitud POST a tu servidor backend
 				const response = await axios.post(
-					"https://asppython-rag-dev-fc-008.azurewebsites.net/chat",
+					"https://asppython-rag-dev-fc-011.azurewebsites.net/chat", 
 					{
 						query: query,
 						prompt:
