@@ -20,6 +20,6 @@ jobs:
     - name: Deploy to Azure
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'aspnode-rag-dev-fc-011'
+        app-name: 'app-ragfront-dev-frc-002'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ./dist
