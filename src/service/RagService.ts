@@ -6,10 +6,10 @@ export class RagService extends HTTPBaseService {
   private static classInstance?: RagService
  
   //this.baseURL = 'https://asppython-rag-dev-fc-008.azurewebsites.net';   //Maria Pia
-//this.baseURL = 'https://app-ragback-dev-frc-002.azurewebsites.net/chat'; //Sergio
+//this.baseURL = 'https://app-ragback-dev-frc-002.azurewebsites.net/chat'; //Sergio asppython-rag-dev-fc-011.azurewebsites.net
 
   constructor() {
-    super('https://app-ragback-dev-frc-002.azurewebsites.net')
+    super('https://asppython-rag-dev-fc-011.azurewebsites.net')
   }
 
   public static getInstance(): RagService {
