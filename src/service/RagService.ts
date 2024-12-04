@@ -4,9 +4,12 @@ import type { Message } from '@/types/common'
 
 export class RagService extends HTTPBaseService {
   private static classInstance?: RagService
+ 
+  //this.baseURL = 'https://asppython-rag-dev-fc-008.azurewebsites.net';   //Maria Pia
+//this.baseURL = 'https://app-ragback-dev-frc-002.azurewebsites.net/chat'; //Sergio
 
   constructor() {
-    super('https://asppython-rag-dev-fc-008.azurewebsites.net')
+    super('https://app-ragback-dev-frc-002.azurewebsites.net')
   }
 
   public static getInstance(): RagService {
