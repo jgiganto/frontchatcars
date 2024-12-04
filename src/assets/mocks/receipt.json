@@ -1,0 +1,95 @@
+{
+  "totalAmount": 64.1,
+  "items": [
+    {
+      "id": 1,
+      "name": "Aceite motor SW40",
+      "count": 2,
+      "unitPrice": 25.9,
+      "totalAmount": 51.8
+    },
+    {
+      "id": 3,
+      "name": "Líquido de freno DOT 4",
+      "count": 1,
+      "unitPrice": 12.3,
+      "totalAmount": 12.3
+    }
+  ],
+  "prediction": {
+    "predictions": [
+      {
+        "probability": 0.64425683,
+        "tagId": "3e874f9d-d30f-43f6-a610-8b5e1d4129c3",
+        "tagName": "Aceite motor SW40",
+        "isHighProbability": true,
+        "boundingBox": {
+          "left": 1580,
+          "top": 0,
+          "width": 1797,
+          "height": 2739
+        }
+      },
+      {
+        "probability": 0.62137425,
+        "tagId": "3e874f9d-d30f-43f6-a610-8b5e1d4129c3",
+        "tagName": "Aceite motor SW40",
+        "isHighProbability": true,
+        "boundingBox": {
+          "left": 4947,
+          "top": 0,
+          "width": 1801,
+          "height": 2739
+        }
+      },
+      {
+        "probability": 0.504338,
+        "tagId": "7c49147e-721c-4aa6-983b-145843a4c063",
+        "tagName": "Líquido de freno DOT 4",
+        "isHighProbability": true,
+        "boundingBox": {
+          "left": 8658,
+          "top": 395,
+          "width": 822,
+          "height": 2020
+        }
+      },
+      {
+        "probability": 0.44895777,
+        "tagId": "3e874f9d-d30f-43f6-a610-8b5e1d4129c3",
+        "tagName": "Aceite motor SW40",
+        "isHighProbability": false,
+        "boundingBox": {
+          "left": 0,
+          "top": 0,
+          "width": 1787,
+          "height": 2739
+        }
+      },
+      {
+        "probability": 0.32063332,
+        "tagId": "7c49147e-721c-4aa6-983b-145843a4c063",
+        "tagName": "Líquido de freno DOT 4",
+        "isHighProbability": false,
+        "boundingBox": {
+          "left": 6528,
+          "top": 0,
+          "width": 1876,
+          "height": 2739
+        }
+      },
+      {
+        "probability": 0.31192017,
+        "tagId": "3e874f9d-d30f-43f6-a610-8b5e1d4129c3",
+        "tagName": "Aceite motor SW40",
+        "isHighProbability": false,
+        "boundingBox": {
+          "left": 6462,
+          "top": 0,
+          "width": 1708,
+          "height": 2739
+        }
+      }
+    ]
+  }
+}

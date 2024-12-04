@@ -1,0 +1,77 @@
+:root {
+  --c-white: #fff;
+  --c-white-header: #f4f4f4;
+  --c-light-white: #ffffff8b;
+  --c-error: #e4002b;
+  --c-grey-10: #f8f8f8;
+  --c-grey-20: #cec9c3;
+  --c-grey-30: #ddd;
+  --c-grey-50: #aaa;
+  --c-grey-60: #808080;
+  --c-grey-70: #464646;
+  --c-orange-70: #ff6200;
+  --c-turquoise-20: #b0e1e7;
+  --c-turquoise-60: #00adc3;
+  --c-turquoise-80: #016a7f;
+  --c-dark-blue: #1e3552;
+  --c-turquoise-invent: #c0ebf2;
+  --sidemenu-size: 3rem;
+  --header-height: 3.5rem;
+  --font-repsol: 'Repsol';
+  --font-repsol-bold: 'RepsolBold';
+  --font-roboto-400: 'Roboto-Regular';
+  --font-roboto-500: 'Roboto-Medium';
+}
+
+@font-face {
+  font-family: 'Repsol';
+  src: url('../assets/fonts/Repsol.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'RepsolBold';
+  src: url('../assets/fonts/RepsolBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: url('../assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto-Medium';
+  src: url('../assets/fonts/Roboto-Medium.ttf') format('truetype');
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  /* min-height: 100vh; */
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  line-height: 1.5;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 12px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

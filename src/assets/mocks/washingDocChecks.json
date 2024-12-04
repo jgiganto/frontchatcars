@@ -1,0 +1,113 @@
+{
+  "sections": [
+    {
+      "id": 1,
+      "title": "Verificado lavado plásticos",
+      "validationPoints": [
+        {
+          "id": 0,
+          "title": "P01 Lavado de agua fría",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 1,
+          "title": "P10 Lavado de agua caliente",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 2,
+          "title": "P30 Secado",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 3,
+          "title": "P40 Vaporizar (deposito principal + colector + circuito de aire)",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 4,
+          "title": "E35 Secado aire caliente",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 5,
+          "title": "E41 Lavado de colectores",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 6,
+          "title": "E51 Lavado portamanguera (cuando corresponda)",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 7,
+          "title": "E52 Lavado bocas hombre",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 87,
+          "title": "E56 Lavado mangueras interior y exterior de toda la longitud con Alta Presión,utilizando una rata y drenando el agua fuera de la manguera",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 9,
+          "title": "E58 Lavado interior y exterior accesorios y componentes en contacto con el producto:(curva de descarga, partes de reducción, cierre y válvulas anti-retorno) En los equipos que los llevan):",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 10,
+          "title": "E60 Limpieza circuito aire",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 11,
+          "title": "E61 Limpieza conexiones de aire",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 12,
+          "title": "E71 Lavado junta tapa superior E71",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 13,
+          "title": "F01 Lavado con agua potable",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 14,
+          "title": "F50 Detergente alimentario",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 15,
+          "title": "W50 Depuración aguas",
+          "required": true,
+          "validated": false
+        },
+        {
+          "id": 16,
+          "title": "E75 Cambio junta tapa superior (si aplica, por estar en mal estado o por olor)",
+          "required": false,
+          "validated": false
+        }
+      ]
+    }
+  ],
+  "prohibitedCodes": ["C01-C10-C20 No son aceptados"]
+}
