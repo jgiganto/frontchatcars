@@ -122,6 +122,7 @@ async function onFileChange(event: Event) {
       </div>
 
       <AppButton
+        v-if="predictionDone && cartImagePrediction && cartImagePrediction.items.length > 0"
         title="Continuar con el pago"
         :model="PoCModel.Common"
         :action="reset"
