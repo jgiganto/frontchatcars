@@ -11,19 +11,14 @@
 	</header>
 </template>
 
-<!-- <script setup lang="ts"></script> -->
-
 <style scoped>
 	header {
 		display: flex;
-		align-items: flex-start;
+		align-items: center;
 		padding: 0px 5%;
 		position: relative;
+		height: 70px;
 		background-color: #f4f4f4;
-	}
-
-	.header-wrapper {
-		padding: 20px 0;
 	}
 
 	.logo-wrapper a {
@@ -32,15 +27,21 @@
 		gap: 10px;
 		text-decoration: none;
 		color: #1e3552;
+		font-size: 14px;
+	}
+
+	.logo-wrapper a h1 {
+		font-weight: normal;
 	}
 
 	.header-wrapper img {
-		width: 50px;
+		width: 45px;
 	}
 
 	@media (max-width: 500px) {
 		header {
 			justify-content: center;
+			height: 60px;
 		}
 
 		.header-wrapper h1 {

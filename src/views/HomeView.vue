@@ -77,12 +77,28 @@
 </template>
 
 <style scoped>
+	.hero {
+		padding: 50px;
+		position: relative;
+		z-index: 1;
+	}
+
+	.hero > div > h1 {
+		max-width: 60%;
+		font-size: 75px;
+		font-style: italic;
+		color: #fff;
+		position: absolute;
+		top: 50%;
+		text-shadow: 6px 6px 6px #1e3552;
+		font-weight: normal;
+	}
+
 	.chat-button-container {
 		position: fixed; /* Makes the button stay in one position relative to the viewport */
 		bottom: 20px; /* Adjust the distance from the bottom */
 		right: 20px; /* Adjust the distance from the right */
 		display: flex;
-		/* flex-direction: column; */
 		align-items: center;
 		gap: 20px;
 	}
@@ -97,6 +113,7 @@
 
 	.chat-button-container span {
 		color: #ffffff;
+		font-size: 12px;
 	}
 
 	.chat-button-container .chat-button {
@@ -104,43 +121,22 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 70px;
-		height: 70px;
+		width: 50px;
+		height: 50px;
 		border-radius: 50%;
 		border: 1px solid white;
 		background-color: white;
 	}
 
 	.chat-button-container .chat-button img {
-		width: 50px;
-	}
-
-	.hero {
-		height: calc(100vh - 72.07px);
-		background-image: url("@/assets/bg-qr.jpg");
-		background-size: cover;
-		background-position: top;
-		padding: 50px;
-		position: relative;
-		z-index: 1;
-	}
-
-	.hero > div > h1 {
-		max-width: 60%;
-		font-size: 90px;
-		font-style: italic;
-		color: #fff;
-		position: absolute;
-		top: 20%;
-		text-shadow: 6px 6px 6px #1e3552;
+		width: 35px;
 	}
 
 	.chat {
 		position: absolute;
-		right: 0;
+		right: 30px;
+		top: 10px;
 		z-index: 10;
-		margin-right: 60px;
-		/* position: relative; */
 	}
 
 	.qr-reader-fullscreen {
@@ -148,7 +144,7 @@
 		max-width: 26%;
 		height: 67.5%;
 		z-index: 11;
-		top: 16.3%;
+		top: 14.5%;
 		right: 3%;
 		border: #1e3552 solid 2px;
 		background-color: #f9f9f9;
@@ -163,8 +159,6 @@
 
 	@media (max-width: 500px) {
 		.hero {
-			height: calc(100vh - 72.07px);
-			background-position: right;
 			padding: 5px;
 		}
 

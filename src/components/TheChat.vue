@@ -2,7 +2,11 @@
 	// IMPORTS
 	import { ref, nextTick, onMounted } from "vue";
 	import { useRoute } from "vue-router";
+	import { RagService } from "@/service/RagService";
 	import axios from "axios";
+
+	// SERVICE
+	const { sendChatRequest } = RagService.getInstance();
 
 	// ROUTER
 	const route = useRoute();
@@ -46,12 +50,12 @@
 		filteredMessages.value = messages.value.filter(
 			(message) => message.role !== "system"
 		);
-
-		console.log(filteredMessages.value);
 	});
 
 	// METHODS
 	async function sendMessage() {
+		textarea.value.style.height = "20px";
+
 		if (newMessage.value.trim() !== "") {
 			loadingMessage.value = true;
 
@@ -85,56 +89,58 @@
 
 			newMessage.value = "";
 
-			try {
-				// Realiza una solicitud POST a tu servidor backend
-				const response = await axios.post(
-					"https://app-ragback-dev-frc-002.azurewebsites.net/chat", 
-					{
-						query: query,
-						prompt:
-							brand.value && model.value
-								? `Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente ha escaneado el QR pegado al parabrisas del ${brand.value} ${model.value} y la conversación y respuestas deberían ir orientadas a su interés sobre este automóvil en concreto, iniciando cada una de las respuesta con un encabezado con la marca y modelo del coche cuya pegatina ha escaneado el cliente. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.`
-								: "Dentro de la compañía Stratesys Cars, especializada en venta de automóviles de segunda mano, eres un asistente útil que proporciona información sobre coches basándose únicamente en los datos proporcionados a continuación. Los automóviles están expuestos y tienen una pegatina QR identificativa en su parabrisas. En este caso el cliente podría estar interesado en cualquiera de los automóviles y hacer preguntas sobre uno en concreto o varios de ellos. No incluyas ninguna información que no esté presente en las fuentes. No utilices ningún conocimiento previo ni hagas suposiciones. Proporciona la respuesta de manera amigable y concisa en forma de viñetas. Si no hay suficiente información a continuación, di que no lo sabes. No menciones ningún coche ni detalles que no estén incluidos en las fuentes.",
-						messages: messages.value,
+			// Realiza una solicitud POST a tu servidor backend
+			await sendChatRequest(
+				query,
+				brand.value,
+				model.value,
+				messages.value
+			)
+				.then((res) => {
+					if (res) {
+						const assistantMessage = res.data.response;
+
+						// Agrega la respuesta del asistente al historial
+						messages.value.push({
+							role: "assistant",
+							content: assistantMessage,
+						});
 					}
-				);
+				})
+				.catch((error) => {
+					console.error(
+						"Error al comunicarse con el backend:",
+						error
+					);
 
-				const assistantMessage = response.data.response;
-
-				// Agrega la respuesta del asistente al historial
-				messages.value.push({
-					role: "assistant",
-					content: assistantMessage,
+					messages.value.push({
+						role: "assistant",
+						content:
+							"Lo siento, hubo un error al procesar tu solicitud.",
+					});
+				})
+				.finally(() => {
+					filteredMessages.value = messages.value.filter(
+						(message) => message.role !== "system"
+					);
+					loadingMessage.value = false;
+					// Desplazarse hacia abajo
+					nextTick(() => {
+						chatDisplay.value.scrollTop =
+							chatDisplay.value.scrollHeight;
+					});
 				});
-			} catch (error) {
-				console.error("Error al comunicarse con el backend:", error);
-				messages.value.push({
-					role: "assistant",
-					content:
-						"Lo siento, hubo un error al procesar tu solicitud.",
-				});
-			} finally {
-				filteredMessages.value = messages.value.filter(
-					(message) => message.role !== "system"
-				);
-				loadingMessage.value = false;
-				// Desplazarse hacia abajo
-				nextTick(() => {
-					chatDisplay.value.scrollTop =
-						chatDisplay.value.scrollHeight;
-				});
-			}
 		}
 	}
 
 	function handleInput() {
 		if (textarea.value) {
-			textarea.value.style.height = "20px";
+			textarea.value.style.height = "30px";
 
-			textarea.value.scrollHeight < 50
+			textarea.value.scrollHeight < 40
 				? (textarea.value.style.height =
-						textarea.value.scrollHeight - 10 + "px")
-				: (textarea.value.style.height = "50px");
+						textarea.value.scrollHeight - 15 + "px")
+				: (textarea.value.style.height = "40px");
 		}
 	}
 </script>
@@ -183,7 +189,7 @@
 	.chat-container {
 		display: flex;
 		flex-direction: column;
-		width: 500px;
+		width: 400px;
 		background-color: #ffffff;
 		border-radius: 10px;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -194,7 +200,8 @@
 		background-color: #1e3552;
 		color: #ffffff;
 		text-align: center;
-		padding: 1rem;
+		padding: 0.5rem;
+		font-size: 20px;
 		border-top-left-radius: 10px;
 		border-top-right-radius: 10px;
 	}
@@ -202,7 +209,7 @@
 	/* Área de mensajes */
 	.chat-display {
 		padding: 1rem;
-		height: 400px;
+		height: 240px;
 		overflow-y: auto;
 		background-color: #f9f9f9;
 		display: flex;
@@ -213,7 +220,11 @@
 	.chat-message {
 		max-width: 80%;
 		margin-bottom: 0.5rem;
-		font-size: 16px;
+		font-size: 12px;
+
+		word-break: break-word; /* Hace que las palabras largas se dividan */
+		overflow-wrap: break-word; /* Alternativa para navegadores más modernos */
+		white-space: normal; /* Permite que el texto se envuelva */
 	}
 
 	/* Mensajes */
@@ -225,6 +236,7 @@
 	.chat-message i {
 		font-size: 20px;
 		color: #1e3552;
+		margin: 0 5px;
 	}
 
 	.chat-message span {
@@ -235,15 +247,20 @@
 	}
 
 	.chat-message.user {
-		align-self: flex-start;
-	}
-
-	.chat-message.assistant {
 		align-self: flex-end;
 	}
 
-	.chat-assistant i {
+	.chat-message.user i {
+		font-size: 14px;
 		text-align: right;
+	}
+
+	.chat-message.assistant {
+		align-self: flex-start;
+	}
+
+	.chat-assistant i {
+		font-size: 14px;
 	}
 
 	.message-content {
@@ -274,11 +291,11 @@
 
 	.chat-input textarea {
 		flex: 1;
-		padding: 5px;
+		padding: 3px 8px;
 		margin-right: 0.5rem;
 		border: 1px solid #1e3552;
 		border-radius: 5px;
-		font-size: 16px;
+		font-size: 12px;
 		line-height: 20px;
 		font-family: inherit;
 		scrollbar-width: none;
@@ -297,12 +314,12 @@
 
 	/* Botón de enviar */
 	.chat-input button {
-		padding: 0.75rem 1rem;
 		background-color: #1e3552;
 		color: #ffffff;
-		font-size: 16px;
+		font-size: 12px;
 		border: none;
-		width: 100px;
+		width: 80px;
+		min-height: 30px;
 		border-radius: 5px;
 		cursor: pointer;
 		font-weight: bold;
@@ -336,7 +353,7 @@
 	}
 
 	.loader {
-		width: 10px;
+		width: 5px;
 		aspect-ratio: 1;
 		border-radius: 50%;
 		animation: l5 1s infinite linear alternate;
