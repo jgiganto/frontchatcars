@@ -122,7 +122,6 @@ async function onFileChange(event: Event) {
       </div>
 
       <AppButton
-        v-if="predictionDone && cartImagePrediction && cartImagePrediction.items.length > 0"
         title="Continuar con el pago"
         :model="PoCModel.Common"
         :action="reset"
@@ -226,7 +225,8 @@ async function onFileChange(event: Event) {
 }
 
 .cart-image img {
-  width: 80%;
+  max-height: 290px;
+  max-width: 500px;
 }
 
 .summary-receipt {
