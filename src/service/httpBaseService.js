@@ -7,7 +7,9 @@ export class HTTPBaseService {
 	baseURL
 
 	constructor() {
-        this.baseURL = 'https://asppython-rag-dev-fc-008.azurewebsites.net';
+		this.baseURL = 'https://asppython-rag-dev-fc-008.azurewebsites.net'; 
+        //this.baseURL = 'https://asppython-rag-dev-fc-008.azurewebsites.net';   //Maria Pia
+		//this.baseURL = 'https://app-ragback-dev-frc-002.azurewebsites.net/chat'; //Sergio
 		this.instance = axios.create({
 			baseURL: `${this.baseURL}/`,
 		});
