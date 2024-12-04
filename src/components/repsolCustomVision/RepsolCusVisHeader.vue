@@ -29,7 +29,7 @@ function goHome() {
     <img @click="showMenu = !showMenu" src="@/assets/icons/menu-repsol.png" alt="" />
   </header>
   <div v-if="showMenu" class="dropdown-menu">
-    <span class="title"><u>Ajustes</u><img src="../assets/icons/setting.png" alt="" /></span>
+    <span class="title"><u>Ajustes</u><img src="@/assets/icons/setting.png" alt="" /></span>
     <EditableBar />
   </div>
 </template>
