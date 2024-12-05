@@ -20,9 +20,9 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         # app-name: 'aspnode-rag-dev-fc-008'  Pia
-        # app-name: 'app-ragfront-dev-frc-002' Sergio
-        app-name: 'aspnode-rag-dev-fc-008'
+        # app-name: 'aspnode-rag-dev-fc-011' Sergio  
+        app-name: 'aspnode-rag-dev-fc-011'
         # publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} Pia
         # publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_SERGIO }} Sergio
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_SERGIO }}
         package: ./dist
