@@ -14,6 +14,14 @@ const upperThumbPosition: Ref<number> = ref(50) // Posición inicial del segundo
 const minValue = 0
 const maxValue = 100
 
+// PROPS
+const props = defineProps({
+  repsol: {
+    type: Boolean,
+    // required: true,
+  },
+})
+
 // COMPUTED
 // Calcula los valores de los thumbs según sus posiciones
 const currentLowerValue = computed(() =>
@@ -67,10 +75,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="slider-container">
+  <div :class="{ repsol: props.repsol }" class="slider-container">
     <!-- Valores de salida -->
     <div class="value-display">
-      Límites de Probabilidad: <b>{{ currentLowerValue }}% - {{ currentUpperValue }}%</b>
+      Límites de Probabilidad:
+      <b :class="{ 'repsol-bold': props.repsol }"
+        >{{ currentLowerValue }}% - {{ currentUpperValue }}%</b
+      >
     </div>
 
     <div class="slider-track" @mousedown="startDrag('track')" ref="sliderTrack">
@@ -102,13 +113,19 @@ onMounted(() => {
 <style scoped>
 .slider-container {
   width: 300px;
+}
+.repsol {
   font-family: var(--font-repsol);
+}
+
+.repsol-bold {
+  font-family: var(--font-repsol-bold);
 }
 
 .slider-track {
   position: relative;
   width: 100%;
-  height: 6px;
+  height: 4px;
   background-color: var(--c-grey-30);
   border-radius: 3px;
   cursor: pointer;
@@ -124,8 +141,8 @@ onMounted(() => {
 .slider-thumb {
   position: absolute;
   top: -4px;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   background-color: var(--c-turquoise-80);
   border-radius: 50%;
   cursor: pointer;
@@ -134,10 +151,20 @@ onMounted(() => {
 
 .value-display {
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 12px;
 }
 
-.value-display b {
-  font-family: var(--font-repsol-bold);
+@media (max-width: 500px) {
+  .slider-track {
+    height: 6px;
+  }
+
+  .slider-thumb {
+    width: 14px;
+    height: 14px;
+  }
+  .value-display {
+    font-size: 16px;
+  }
 }
 </style>

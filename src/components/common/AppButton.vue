@@ -53,6 +53,12 @@ const props = defineProps({
   font-weight: normal;
 }
 
+@media (max-width: 500px) {
+  .button {
+    font-size: 16px;
+  }
+}
+
 .common {
   background-color: var(--c-white);
   border: 2px solid var(--c-grey-70);

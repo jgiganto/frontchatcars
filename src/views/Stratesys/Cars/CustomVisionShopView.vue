@@ -9,15 +9,18 @@ import { createFormData } from '@/utils/common'
 import { PoCModel } from '@/types/common'
 import UploadButton from '@/components/common/UploadButton.vue'
 import AppButton from '@/components/common/AppButton.vue'
+import EditableBar from '@/components/repsolCustomVision/EditableBar.vue'
 
 // SERVICE
 const { getInvoice } = CustomVisionService.getInstance()
 
 // STORE
-const { cartImagePrediction } = storeToRefs(usePredictionStore())
+const { cartImagePrediction, lowerProbabilityThreshold, upperProbabilityThreshold } =
+  storeToRefs(usePredictionStore())
 const { resetStore } = usePredictionStore()
 
 // DATA
+const showMenu: Ref<boolean> = ref(false)
 const fileData: Ref<string | null> = ref(null)
 const uploadFile: Ref<File | null> = ref(null)
 const camera: Ref<InstanceType<typeof TheCamera> | null> = ref(null)
@@ -25,8 +28,8 @@ const loading: Ref<boolean> = ref(false)
 const isCamaraOn: Ref<boolean> = ref(false)
 const errorMsg: Ref<string> = ref('')
 const predictionDone: Ref<boolean> = ref(false)
-const lowerProbabilityThreshold: Ref<number> = ref(0.2)
-const upperProbabilityThreshold: Ref<number> = ref(0.5)
+// const lowerProbabilityThreshold: Ref<number> = ref(0.2)
+// const upperProbabilityThreshold: Ref<number> = ref(0.5)
 
 // HOOKS
 onMounted(() => {
@@ -132,7 +135,19 @@ async function onFileChange(event: Event) {
 
     <!-- FACTURA -->
     <div class="summary-receipt">
-      <h2>Resumen de la Compra:</h2>
+      <div class="summary-header">
+        <h2>Resumen de la Compra:</h2>
+        <img
+          class="settings"
+          @click="showMenu = !showMenu"
+          src="@/assets/icons/filter.png"
+          alt=""
+        />
+        <div v-if="showMenu" class="dropdown-menu">
+          <!-- <span class="title"><u>Ajustes</u><img src="@/assets/icons/setting.png" alt="" /></span> -->
+          <EditableBar />
+        </div>
+      </div>
       <div v-if="cartImagePrediction && cartImagePrediction.items.length > 0" class="summary-total">
         <div>
           <div v-for="item in cartImagePrediction.items" :key="item.id" class="shop-item">
@@ -239,6 +254,33 @@ async function onFileChange(event: Event) {
 
 .summary-receipt h2 {
   margin-bottom: 15px;
+}
+
+.summary-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings {
+  width: 20px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: fixed;
+  right: 40px;
+  top: 24%;
+  padding: 10px;
+  border: 1px solid var(--c-grey-30);
+  box-shadow: var(--c-grey-30) 1px 1px 1px 1px;
+  border-radius: 5px;
+  background-color: var(--c-white);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  z-index: 10;
 }
 
 .summary-total {

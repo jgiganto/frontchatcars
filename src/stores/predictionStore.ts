@@ -74,7 +74,7 @@ export const usePredictionStore = defineStore({
       butano125: 0,
       butanoPropano35: 0,
     }) as RootState,
-  persist: true,
+  // persist: true,
   getters: {
     manualOptions(state): ManualOption[] {
       return [

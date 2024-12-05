@@ -22,7 +22,7 @@ function goHome() {
 
 <template>
   <header class="header">
-    <a href="/" @click="goHome">
+    <a href="/repsol-custom-vision" @click="goHome">
       <img src="@/assets/icons/repsol.png" alt="" />
     </a>
 
@@ -30,7 +30,7 @@ function goHome() {
   </header>
   <div v-if="showMenu" class="dropdown-menu">
     <span class="title"><u>Ajustes</u><img src="@/assets/icons/setting.png" alt="" /></span>
-    <EditableBar />
+    <EditableBar :repsol="true" />
   </div>
 </template>
 
@@ -40,7 +40,8 @@ function goHome() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding: 0 12px;
+  height: 75px;
   gap: 0.4em;
   border-bottom: 1px solid var(--c-turquoise-80);
 }

@@ -318,6 +318,8 @@ function updateTotal(key: string, newTotal: number) {
         class="button"
       />
 
+      <span class="error-message load-error">{{ errorMsg }}</span>
+
       <!-- PREVIEW FOTO -->
       <div v-if="predictionDone" class="prediction-container">
         <img ref="image" :src="fileData ? fileData : ''" alt="" @load="setCanvasSize" />
@@ -355,8 +357,6 @@ function updateTotal(key: string, newTotal: number) {
           >{{ comparationErrorMessage }}</span
         >
 
-        <span class="error-message">{{ errorMsg }}</span>
-
         <AppButton
           title="CONFIRMAR"
           :action="goToSummary"
@@ -371,7 +371,7 @@ function updateTotal(key: string, newTotal: number) {
 
 <style scoped>
 .home-container {
-  min-height: calc(100vh - 72.67px);
+  min-height: calc(100vh - 75px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -381,13 +381,19 @@ function updateTotal(key: string, newTotal: number) {
   font-family: var(--font-repsol);
 }
 
+.home-container h2 {
+  font-size: 22px;
+  padding: 4px 0;
+}
+
 .app-name {
   font-style: italic;
   font-family: var(--font-repsol-bold);
   background-color: var(--c-turquoise-80);
   color: var(--c-white);
   width: 100vw;
-  padding: 10px 0;
+  padding: 11px 0;
+  font-size: 30px;
 }
 
 .home-container .order-number {
@@ -409,6 +415,7 @@ function updateTotal(key: string, newTotal: number) {
 
 .delivery-info-container h1 {
   font-weight: bold;
+  font-size: 30px;
 }
 
 .delivery-info-container .delivery-info {
@@ -416,6 +423,7 @@ function updateTotal(key: string, newTotal: number) {
   border-radius: 4px;
   padding: 10px 15px;
   text-align: left;
+  font-size: 16px;
 }
 
 .delivery-info-container .delivery-info hr {
@@ -473,6 +481,7 @@ function updateTotal(key: string, newTotal: number) {
 .subtitle {
   font-style: italic;
   color: var(--c-grey-60);
+  font-size: 15px;
 }
 
 .tags-total {
@@ -483,6 +492,7 @@ function updateTotal(key: string, newTotal: number) {
 .tag-group {
   display: flex;
   flex-direction: column;
+  font-size: 15px;
 }
 
 .tag-group .name-group {
@@ -541,7 +551,12 @@ canvas {
   font-weight: bold;
   font-style: italic;
   text-align: center;
+  font-size: 16px;
   /* white-space: pre-line; */
+}
+
+.load-error {
+  margin: 15px 10px 0;
 }
 
 .truncate {

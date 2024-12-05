@@ -51,13 +51,14 @@ function handleClose() {
 
 <style scoped>
 .home-container {
-  height: calc(100vh - 70.67px);
+  height: calc(100vh - 75px);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   text-align: center;
   gap: 2em;
-  padding: 10px 20px;
+  padding: 10px 20px 20px;
   font-family: var(--font-repsol-bold);
 }
 
@@ -71,7 +72,8 @@ function handleClose() {
   background-color: var(--c-turquoise-80);
   color: var(--c-white);
   width: 100vw;
-  padding: 10px 0;
+  padding: 11px 0;
+  font-size: 30px;
 }
 
 .tag-group {
@@ -82,6 +84,7 @@ function handleClose() {
   border-bottom: var(--c-grey-50) solid 1px;
   border-radius: 5px;
   padding: 10px;
+  font-size: 15px;
 }
 
 .tag-group div {
