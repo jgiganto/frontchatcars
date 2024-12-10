@@ -119,7 +119,7 @@ async function onFileChange(event: Event) {
       .then((res) => {
         if (res) {
           documentData.value = res.data
-          if (documentData.value?.legibilityStatus) showDocPreview.value = true
+          showDocPreview.value = true
         }
       })
       .catch((err) => {
@@ -222,6 +222,19 @@ function handleValidationCheck() {
     }
   } else handleClose()
 }
+
+function handleDocTitle(docType: string | undefined) {
+  if (!docType) return 'No identificado'
+
+  switch (docType) {
+    case docTypeEnum.ADR:
+      return 'Certificado ADR'
+    case docTypeEnum.CertificadoLavado:
+      return 'Certificado de Lavado'
+    default:
+      return 'No identificado'
+  }
+}
 </script>
 
 <template>
@@ -237,9 +250,9 @@ function handleValidationCheck() {
           :model="PoCModel.Common"
         />
       </div>
-      <span v-if="documentData?.legibilityStatus === false" class="error-message">{{
+      <!-- <span v-if="documentData?.legibilityStatus === false" class="error-message">{{
         documentData.message
-      }}</span>
+      }}</span> -->
     </div>
 
     <!-- DOC PREVIEW -->
@@ -261,11 +274,7 @@ function handleValidationCheck() {
           <h2 class="title">
             Modelo:
             <u>
-              {{
-                documentData?.docType === docTypeEnum.ADR
-                  ? 'Certificado ADR'
-                  : 'Certificado de Lavado'
-              }}
+              {{ handleDocTitle(documentData?.docType) }}
             </u>
           </h2>
           <div v-if="documentData?.docType === docTypeEnum.ADR" class="export-button">
@@ -434,6 +443,17 @@ function handleValidationCheck() {
             </div>
           </div>
         </div>
+
+        <!-- DOCUMENTO NO LEGIBLE/ENTRENADO -->
+        <div
+          v-if="!documentData?.legibilityStatus || !documentData.docType"
+          class="unidentified-doc"
+        >
+          <span class="error-message">{{ documentData?.message }}</span>
+          <div class="buttons">
+            <button class="button" @click="handleClose">Cerrar documento</button>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -475,12 +495,9 @@ function handleValidationCheck() {
   color: var(--c-error);
   font-weight: bold;
   font-style: italic;
-  text-align: center;
-  margin-top: 12px;
+  margin-top: 8px;
   background-color: var(--c-white) 83;
-  padding: 2px 10px;
-  border-radius: 5px;
-  max-width: 70%;
+  padding: 2px 0;
 }
 
 .upload-document-wrapper {
@@ -614,6 +631,13 @@ function handleValidationCheck() {
   text-align: left;
   color: var(--c-error);
   font-weight: bold;
+}
+
+.unidentified-doc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 @keyframes spin {
