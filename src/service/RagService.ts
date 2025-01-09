@@ -53,17 +53,20 @@ export class RagService extends HTTPBaseService {
       Los automóviles en venta tienen una pegatina QR identificativa en su parabrisas, y el cliente puede tener preguntas
       sobre uno o varios vehículos.
 
+      NOTA IMPORTANTE: 
+      . **Si el usuario solicita la “Descripcion” de un coche (o menciona “descripción” en singular/plural), responde EXCLUSIVAMENTE con el texto que aparezca en la propiedad "Descripcion" del campo "manualCar".**  
+        - No incluyas otros datos (no menciones características, motor, dimensiones, etc.).
+        - No incluyas ninguna explicación adicional.
+        - No agregues más contexto, NI INFORMACIÓN más allá del valor literal de "Descripcion", ES DECIR EL VALOR DE LA PROPIEDAD Descripcion.
+        - ES DECIR EXCLUYE CaracteristicasExterior, Seguridad, etc.
+
       Instrucciones:
       1. Responde únicamente con la información disponible en las fuentes provistas más adelante.
       2. No incluyas ningún conocimiento previo ni hagas suposiciones.
       3. Si no hay suficiente información, di que no lo sabes.
       4. Proporciona las respuestas de manera amigable y concisa, usando viñetas.
       5. No menciones ningún coche ni detalles que no estén en las fuentes.
-      6. **Si el usuario solicita la “Descripcion” de un coche (o menciona “descripción” en singular/plural), responde EXCLUSIVAMENTE con el texto que aparezca en la propiedad "Descripcion" del campo "manualCar".**  
-        - No incluyas otros datos (no menciones características, motor, dimensiones, etc.).
-        - No incluyas ninguna explicación adicional.
-        - No agregues más contexto más allá del valor literal de "Descripcion".
-      7. Responde siempre en español.
+      6. Responde siempre en español.
       `.trim();
 
     // Pie de prompt con instrucciones generales para la sección de fuentes
