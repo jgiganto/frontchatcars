@@ -59,6 +59,7 @@ export class RagService extends HTTPBaseService {
       3. Si no hay suficiente información, di que no lo sabes.
       4. Proporciona las respuestas de manera amigable y concisa, usando viñetas.
       5. No menciones ningún coche ni detalles que no estén en las fuentes.
+      6. Cuando te pregunte sobre la Descripcion, no me des toda la informacion de manualCar dame solo el valor de la propiedad Descripcion
       `.trim();
 
     // Pie de prompt con instrucciones generales para la sección de fuentes
